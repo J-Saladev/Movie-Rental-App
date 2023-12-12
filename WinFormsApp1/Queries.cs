@@ -23,6 +23,7 @@ class Queries
             var reader = cmd.ExecuteReader();
             var table = new DataTable();
             table.Load(reader);
+            conn.Close();
             return table;
         } catch (SqlException ex)
         {
@@ -38,6 +39,7 @@ class Queries
             conn.Open();
             var cmd = new SqlCommand(query, conn);
             cmd.ExecuteNonQuery();
+            conn.Close();
         }
         catch (SqlException ex)
         {

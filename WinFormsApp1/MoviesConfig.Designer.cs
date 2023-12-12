@@ -44,8 +44,11 @@
             btnUpdate = new Button();
             btnAdd = new Button();
             grpMovies = new GroupBox();
+            dataMovies = new DataGridView();
             grpMovieInsert.SuspendLayout();
             grpActions.SuspendLayout();
+            grpMovies.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataMovies).BeginInit();
             SuspendLayout();
             // 
             // grpMovieInsert
@@ -177,6 +180,7 @@
             btnDelete.TabIndex = 2;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnUpdate
             // 
@@ -186,6 +190,7 @@
             btnUpdate.TabIndex = 1;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnAdd
             // 
@@ -195,15 +200,37 @@
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // grpMovies
             // 
+            grpMovies.Controls.Add(dataMovies);
             grpMovies.Location = new Point(372, 12);
             grpMovies.Name = "grpMovies";
             grpMovies.Size = new Size(485, 442);
             grpMovies.TabIndex = 2;
             grpMovies.TabStop = false;
             grpMovies.Text = "All Movies";
+            // 
+            // dataMovies
+            // 
+            dataMovies.AllowUserToAddRows = false;
+            dataMovies.AllowUserToDeleteRows = false;
+            dataMovies.AllowUserToOrderColumns = true;
+            dataMovies.AllowUserToResizeColumns = false;
+            dataMovies.AllowUserToResizeRows = false;
+            dataMovies.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataMovies.Location = new Point(20, 26);
+            dataMovies.Name = "dataMovies";
+            dataMovies.ReadOnly = true;
+            dataMovies.RowHeadersWidth = 51;
+            dataMovies.RowTemplate.Height = 29;
+            dataMovies.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataMovies.Size = new Size(459, 410);
+            dataMovies.TabIndex = 0;
+            dataMovies.CellContentClick += dataMovies_CellContentClick;
+            dataMovies.RowEnter += dataMovies_RowEnter;
+            dataMovies.MouseDown += dataMovies_MouseDown;
             // 
             // MoviesConfig
             // 
@@ -219,6 +246,8 @@
             grpMovieInsert.ResumeLayout(false);
             grpMovieInsert.PerformLayout();
             grpActions.ResumeLayout(false);
+            grpMovies.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataMovies).EndInit();
             ResumeLayout(false);
         }
 
@@ -240,5 +269,7 @@
         private Button btnUpdate;
         private Button btnAdd;
         private CheckBox chkAvailable;
+        private DataGridView dataMovies;
+
     }
 }
