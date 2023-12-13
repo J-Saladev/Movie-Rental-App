@@ -21,7 +21,7 @@ namespace WinFormsApp1
         Queries query = new Queries("localhost\\SQLEXPRESS", "Exercise_5");
         public void GetRents()
         {
-            string load_table = "SELECT r.Rental_Date, r.Return_Date, r.Price, u.Name, m.Title FROM Rentals AS r " +
+            string load_table = "SELECT r.Rental_Id, r.Rental_Date, r.Return_Date, r.Price, u.Name, m.Title FROM Rentals AS r " +
                 "INNER JOIN Users AS u ON r.User_ID = u.User_ID " +
                 "INNER JOIN Movies AS m ON r.Movie_Id = m.Movie_ID ";
             dataRents.DataSource = query.ExecuteQuery(load_table);
@@ -82,8 +82,12 @@ namespace WinFormsApp1
 
 
             string add = "INSERT INTO Rentals (Rental_Date, Return_Date, Price, User_ID, Movie_ID) " +
-                $"VALUES ({rentdate}, {returndate}, {price}, {userid}, {movieid})";
+                $"VALUES ('{rentdate}', '{returndate}', {price}, {userid}, {movieid})";
             query.ExecuteNonQuery(add);
+            ClearForm();
+            
+            LoadSelect();
+
 
 
 
@@ -101,24 +105,40 @@ namespace WinFormsApp1
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DateTime rentdate = dteRentDate.Value;
-            DateTime returndate = dteReturnDate.Value;
+            DateOnly rentdate = DateOnly.FromDateTime(dteRentDate.Value);
+            DateOnly returndate = DateOnly.FromDateTime(dteReturnDate.Value);
             decimal price = nudPrice.Value;
             string movie = slctMovieTitle.Text;
             string name = slctUserName.Text;
             int userid = UserConfig.GetUserID(name);
             int movieid = MoviesConfig.GetMovieID(movie);
-            int rentalid = Convert.ToInt16(nudRentalID);
+            int rentalid = Convert.ToInt16(nudRentalID.Value);
 
-            string update = $"UPDATE Rentals SET  Rental_Date = {rentdate}, Return_Date = {returndate}, Price = {price}, User_ID = {userid}, Movie_ID = {movieid} WHERE Rental_ID = {rentalid}";
+            string update = $"UPDATE Rentals SET  Rental_Date = '{rentdate}', Return_Date = '{returndate}', Price = {price}, User_ID = {userid}, Movie_ID = {movieid} WHERE Rental_ID = {rentalid}";
             query.ExecuteNonQuery(update);
+            ClearForm();
+            
+            LoadSelect();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-           int rentid = Convert.ToInt16(nudRentalID.Value);
+            int rentid = Convert.ToInt16(nudRentalID.Value);
             string delete = $"DELETE FROM Rentals WHERE Rental_ID = {rentid}";
             query.ExecuteNonQuery(delete);
+            ClearForm();
+            
+            LoadSelect();
+        }
+
+        private void dataRents_RowEnter_1(object sender, DataGridViewCellEventArgs e)
+        {
+            dteRentDate.Value = Convert.ToDateTime(dataRents.Rows[e.RowIndex].Cells["Rental_Date"].Value);
+            dteReturnDate.Value = Convert.ToDateTime(dataRents.Rows[e.RowIndex].Cells["Return_Date"].Value);
+            nudPrice.Value = Convert.ToInt16(dataRents.Rows[e.RowIndex].Cells["Price"].Value);
+            slctMovieTitle.Text = dataRents.Rows[e.RowIndex].Cells["Title"].Value.ToString();
+            slctUserName.Text = dataRents.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+            nudRentalID.Value = Convert.ToDecimal(dataRents.Rows[e.RowIndex].Cells["Rental_ID"].Value);
         }
     }
 }

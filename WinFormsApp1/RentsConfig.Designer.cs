@@ -35,6 +35,7 @@
             btnUpdate = new Button();
             btnAdd = new Button();
             grpMovieInsert = new GroupBox();
+            nudRentalID = new NumericUpDown();
             btnClear = new Button();
             slctMovieTitle = new ComboBox();
             slctUserName = new ComboBox();
@@ -46,13 +47,12 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            nudRentalID = new NumericUpDown();
             grpUsers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataRents).BeginInit();
             grpActions.SuspendLayout();
             grpMovieInsert.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudRentalID).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
             SuspendLayout();
             // 
             // grpUsers
@@ -82,9 +82,11 @@
             dataRents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataRents.Size = new Size(459, 410);
             dataRents.TabIndex = 0;
+            dataRents.RowEnter += dataRents_RowEnter_1;
             // 
             // grpActions
             // 
+            grpActions.Controls.Add(nudRentalID);
             grpActions.Controls.Add(btnDelete);
             grpActions.Controls.Add(btnUpdate);
             grpActions.Controls.Add(btnAdd);
@@ -127,7 +129,6 @@
             // 
             // grpMovieInsert
             // 
-            grpMovieInsert.Controls.Add(nudRentalID);
             grpMovieInsert.Controls.Add(btnClear);
             grpMovieInsert.Controls.Add(slctMovieTitle);
             grpMovieInsert.Controls.Add(slctUserName);
@@ -145,6 +146,14 @@
             grpMovieInsert.TabIndex = 6;
             grpMovieInsert.TabStop = false;
             grpMovieInsert.Text = "Movie Summary";
+            // 
+            // nudRentalID
+            // 
+            nudRentalID.Location = new Point(312, 143);
+            nudRentalID.Name = "nudRentalID";
+            nudRentalID.Size = new Size(39, 27);
+            nudRentalID.TabIndex = 14;
+            nudRentalID.Visible = false;
             // 
             // btnClear
             // 
@@ -245,14 +254,6 @@
             label1.TabIndex = 0;
             label1.Text = "Rent Date: ";
             // 
-            // nudRentalID
-            // 
-            nudRentalID.Location = new Point(306, 33);
-            nudRentalID.Name = "nudRentalID";
-            nudRentalID.Size = new Size(39, 27);
-            nudRentalID.TabIndex = 14;
-            nudRentalID.Visible = false;
-            // 
             // RentsConfig
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -269,8 +270,8 @@
             grpActions.ResumeLayout(false);
             grpMovieInsert.ResumeLayout(false);
             grpMovieInsert.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudRentalID).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
             ResumeLayout(false);
         }
 
