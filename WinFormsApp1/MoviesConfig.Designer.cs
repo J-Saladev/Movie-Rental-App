@@ -39,6 +39,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            btnClear = new Button();
             grpActions = new GroupBox();
             btnDelete = new Button();
             btnUpdate = new Button();
@@ -53,6 +54,7 @@
             // 
             // grpMovieInsert
             // 
+            grpMovieInsert.Controls.Add(btnClear);
             grpMovieInsert.Controls.Add(chkAvailable);
             grpMovieInsert.Controls.Add(chkPremiere);
             grpMovieInsert.Controls.Add(txtActors);
@@ -160,6 +162,17 @@
             label1.TabIndex = 0;
             label1.Text = "Title: ";
             // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(252, 205);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(78, 35);
+            btnClear.TabIndex = 3;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Visible = false;
+            btnClear.Click += btnClear_Click;
+            // 
             // grpActions
             // 
             grpActions.Controls.Add(btnDelete);
@@ -221,6 +234,7 @@
             dataMovies.AllowUserToResizeRows = false;
             dataMovies.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataMovies.Location = new Point(20, 26);
+            dataMovies.MultiSelect = false;
             dataMovies.Name = "dataMovies";
             dataMovies.ReadOnly = true;
             dataMovies.RowHeadersWidth = 51;
@@ -270,6 +284,6 @@
         private Button btnAdd;
         private CheckBox chkAvailable;
         private DataGridView dataMovies;
-
+        private Button btnClear;
     }
 }

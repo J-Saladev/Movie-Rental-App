@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace WinFormsApp1
     public partial class MoviesConfig : Form
 
     {
+        bool click = false;
         int row = 0;
 
         Queries query = new Queries("localhost\\SQLEXPRESS", "Exercise_5");
@@ -34,16 +36,28 @@ namespace WinFormsApp1
             string movieid = $"SELECT Movie_ID FROM Movies WHERE Title = '{title}' AND Director = '{director}'";
             var movielist = query.ExecuteQuery(movieid);
             int thisid = Convert.ToInt16(movielist.Rows[0]["Movie_ID"]);
-            
+
 
             return thisid;
 
+
+        }
+        public int GetMovieID(string title)
+        {
+            string movieid = $"SELECT Movie_ID FROM Movies WHERE Title = '{title}'";
+            var movielist = query.ExecuteQuery(movieid);
+            int thisid = Convert.ToInt16(movielist.Rows[0]["Movie_ID"]);
+
+
+            return thisid;
 
         }
 
         private void MoviesConfig_Load(object sender, EventArgs e)
         {
             GetMovies();
+            FormClear();
+
         }
 
         private void grpMovieInsert_Enter(object sender, EventArgs e)
@@ -63,6 +77,7 @@ namespace WinFormsApp1
                 $"VALUES ('{title}','{director}','{actors}','{genre}','{premiere}','{available}');";
             query.ExecuteNonQuery(add);
             GetMovies();
+            FormClear();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -79,7 +94,10 @@ namespace WinFormsApp1
             string update = $"UPDATE Movies SET Title = '{title}', Director = '{director}', Actors = '{actors}', Genre = '{genre}', Is_Premiere = '{premiere}', Is_Available = '{available}'" +
                 $"WHERE Movie_ID = {movieid}";
             query.ExecuteNonQuery(update);
+
             GetMovies();
+            FormClear();
+
 
         }
 
@@ -87,17 +105,18 @@ namespace WinFormsApp1
         {
             string title = txtTitle.Text;
             string director = txtDirector.Text;
-            int movieid = GetMovieID(title, director);
+            int movieid = GetMovieID(director, title);
             string delete = $"DELETE FROM Movies WHERE Movie_ID = {movieid} ";
             query.ExecuteNonQuery(delete);
+
             GetMovies();
+            FormClear();
 
         }
 
 
         private void dataMovies_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-          
 
         }
 
@@ -108,10 +127,11 @@ namespace WinFormsApp1
 
         private void dataMovies_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            btnClear.Visible = true;
+
+
+
             row = Convert.ToInt16(dataMovies.Rows[e.RowIndex].Cells["Movie_ID"].Value);
-
-
-
             txtTitle.Text = dataMovies.Rows[e.RowIndex].Cells["Title"].Value.ToString();
             txtActors.Text = dataMovies.Rows[e.RowIndex].Cells["Actors"].Value.ToString();
             txtDirector.Text = dataMovies.Rows[e.RowIndex].Cells["Director"].Value.ToString();
@@ -121,7 +141,33 @@ namespace WinFormsApp1
 
 
 
+        }
+        private void FormClear()
+        {
+            txtActors.Clear();
+            txtDirector.Text = "";
+            txtGenre.Text = "";
+            txtTitle.Text = "";
+            chkAvailable.Checked = false;
+            chkPremiere.Checked = false;
+            btnClear.Visible = false;
+
+
+
+
+
 
         }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+
+
+            FormClear();
+
+
+        }
+
+       
     }
 }
